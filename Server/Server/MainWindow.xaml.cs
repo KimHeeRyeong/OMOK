@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WebSocketSharp;
+using WebSocketSharp.Net;
+using WebSocketSharp.Server;
 
 namespace Server
 {
@@ -20,9 +23,27 @@ namespace Server
     /// </summary>
     public partial class MainWindow : Window
     {
+        const int PORT = 15555;
+        WebSocketServer socketServer;
         public MainWindow()
         {
             InitializeComponent();
+            socketServer = new WebSocketServer(PORT);
+            socketServer.AddWebSocketService<Echo>("/Echo");
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (!socketServer.IsListening)
+            {
+                socketServer.Start();
+                btnStart.Content = "Stop Server";
+            }
+            else
+            {
+                socketServer.Stop();
+                btnStart.Content = "Start Server";
+            }
         }
     }
 }
