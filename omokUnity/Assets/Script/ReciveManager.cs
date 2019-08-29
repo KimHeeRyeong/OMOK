@@ -7,6 +7,9 @@ public class ReciveManager : MonoBehaviour
     Clinet client;
     bool recive = false;
     private List<string> msgs = new List<string>();
+
+    bool gameStart;
+    PosState myState;
     // Start is called before the first frame update
     void Awake()
     {
@@ -46,5 +49,27 @@ public class ReciveManager : MonoBehaviour
                 }
             }
         }
+    }
+    void DeserializeJson(string str) {
+        Code code = JsonUtility.FromJson<Code>(str);
+        switch (code.code) {
+            case 1://start
+                Start start = JsonUtility.FromJson<Start>(str);
+                myState = start.state;
+                gameStart = true;
+                break;
+            case 2://play
+                break;
+            case 3://end
+                break;
+            case 4://message
+                break;
+        }
+    }
+    public bool GameIsStart() {
+        return gameStart;
+    }
+    public PosState GetStoneColor() {
+        return myState;
     }
 }

@@ -1,11 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public enum PosState {
-    None,
-    Black,
-    White
-}
 public class StonePositionSetting : MonoBehaviour
 {
     PosState[,] pos = new PosState[15,15];
@@ -26,24 +21,6 @@ public class StonePositionSetting : MonoBehaviour
         if (pos[m, n] == PosState.None)
         {
             pos[m, n] = state;
-            for (int i = 0; i < 15; i++)
-            {
-                string str = "";
-                //console test
-                    //for(int j = 0; j < 15; j++)
-                    //{
-                    //    if (pos[i, j] != PosState.None)
-                    //    {
-                    //        str += "<color=red>" + pos[i, j] + "</color>";
-                    //    }
-                    //    else
-                    //    {
-                    //        str += pos[i, j];
-                    //    }
-                    //}
-                    //Debug.Log(str);
-                //*console test*
-            }
             return true;
         }
         else
