@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 187691804}
   - component: {fileID: 187691805}
   - component: {fileID: 187691806}
+  - component: {fileID: 187691807}
   m_Layer: 0
   m_Name: StonePosition
   m_TagString: Untagged
@@ -176,7 +177,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec14b0d3f30d00146b162f75d355a37e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stone: {fileID: 4120808353966800673, guid: af3c5d13be89d824ca81992a0413f8ac, type: 3}
+  stoneW: {fileID: 4120808353966800673, guid: af3c5d13be89d824ca81992a0413f8ac, type: 3}
+  stoneB: {fileID: 3589493715090315405, guid: 440407c40581bb64b90c1a352c15dcd0, type: 3}
+--- !u!114 &187691807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 187691803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b96c4cd66d6e00409c96f2828b5418b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -2829,3 +2843,59 @@ TilemapCollider2D:
   m_Offset: {x: 0, y: 0}
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0.00001
+--- !u!1 &1461788542
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1461788545}
+  - component: {fileID: 1461788544}
+  - component: {fileID: 1461788543}
+  m_Layer: 0
+  m_Name: Client
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1461788543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461788542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49b9def59cd22574ebd98a9c463fc929, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1461788544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461788542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa6d955a09193ce4bb942472b63cd8b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1461788545
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461788542}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.0380869, y: 0.6527502, z: -9.053447}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
