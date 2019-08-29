@@ -14,7 +14,6 @@ public class ReciveManager : MonoBehaviour
     }
     private void Start()
     {
-        client.SendMsg("send test");
     }
     public void AddMsg(string msg) {
         lock (msgs)
