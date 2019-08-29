@@ -51,5 +51,13 @@ public class StonePositionSetting : MonoBehaviour
             return false;
         }
     }
-
+    public bool CheckStone(PosState state, int m, int n) {
+        if (pos[m, n] == state)
+        {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }
