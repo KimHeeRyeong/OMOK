@@ -14,7 +14,7 @@ public class AddStone : MonoBehaviour
     {
         numStone = 0;
         black = true;
-        InstantiateStone();
+        StartCoroutine(FirstStone());
     }
     public void InstantiateStone() {
         Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -29,5 +29,9 @@ public class AddStone : MonoBehaviour
             black = true;
         }
         numStone++;
+    }
+    IEnumerator FirstStone() {
+        yield return new WaitForSeconds(1);
+        InstantiateStone();
     }
 }

@@ -56,6 +56,9 @@ public class MouseController : MonoBehaviour
     }
     private void OnDestroy()
     {
-        GetComponentInParent<CheckClear>().CheckOMOK(state,m,n);
+        if (GetComponentInParent<Transform>() != null)
+        {
+            GetComponentInParent<CheckClear>().CheckOMOK(state, m, n);
+        }
     }
 }
