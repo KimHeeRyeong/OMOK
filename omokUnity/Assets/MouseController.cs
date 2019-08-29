@@ -5,10 +5,18 @@ using UnityEngine;
 public class MouseController : MonoBehaviour
 {
     bool fix;
+    PosState state;
     // Start is called before the first frame update
     void Start()
     {
         fix = false;
+        if(GetComponent<SpriteRenderer>().color == Color.white){
+            state = PosState.White;
+        }
+        else
+        {
+            state = PosState.Black;
+        }
     }
 
     // Update is called once per frame
@@ -33,7 +41,7 @@ public class MouseController : MonoBehaviour
             if (Input.GetMouseButtonDown(0) && inGrid == true)
             {
                 //if setStone is available
-                if (GetComponentInParent<StonePositionSetting>().SetStone(PosState.White, -(int)pos.y + 7, (int)pos.x + 7)) {
+                if (GetComponentInParent<StonePositionSetting>().SetStone(state, -(int)pos.y + 7, (int)pos.x + 7)) {
                     fix = true;
                     Destroy(this);
                 }
