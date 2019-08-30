@@ -21,14 +21,12 @@ public class Clinet : MonoBehaviour
         socketClient.Connect();
     }
     public void OnOpen(object sender, EventArgs e){
-        reciveManager.AddMsg("서버와 연결");
     }
     public void OnMessage(object sender, MessageEventArgs e)// 서버에게 메시지 받은 경우
     {
         reciveManager.AddMsg(e.Data);
     }
     public void OnClose(object sender, CloseEventArgs e) {
-        reciveManager.AddMsg("서버와 연결 종료");
     }
     public void OnError(object sender, ErrorEventArgs e) {
     }

@@ -5,21 +5,19 @@ using UnityEngine;
 public class MouseController : MonoBehaviour
 {
     bool fix;
-    PosState state;
     int m;
     int n;
+    PosState state;
     // Start is called before the first frame update
     void Start()
     {
         fix = false;
         m = 0;
         n = 0;
-        if(GetComponent<SpriteRenderer>().color == Color.white){
-            state = PosState.White;
-        }
-        else
+        state = GameSingleton.Instance.GetStoneState();
+        if (state == PosState.Black)
         {
-            state = PosState.Black;
+            GetComponent<SpriteRenderer>().color = Color.black;
         }
     }
 
@@ -49,6 +47,7 @@ public class MouseController : MonoBehaviour
                 //if setStone is available
                 if (GetComponentInParent<StonePositionSetting>().SetStone(state, m, n)) {
                     fix = true;
+                    GameSingleton.Instance.SendFixPos(m, n);
                     Destroy(this);
                 }
             }

@@ -4,34 +4,40 @@ using UnityEngine;
 
 public class AddStone : MonoBehaviour
 {
-    public GameObject stoneW;
-    public GameObject stoneB;
-
-    bool black;
+    public GameObject myStone;
+    public GameObject otherStone;
+    
     int numStone;
-    // Start is called before the first frame update
+
     void Start()
     {
         numStone = 0;
-        black = true;
-        StartCoroutine(FirstStone());
     }
-    public void InstantiateStone() {
+    private void Update()
+    {
+        if(GameSingleton.Instance.CheckMyTurn()){
+            GameSingleton.Instance.ChangeMyTurn(false);
+            InstantiateStone();
+        }
+    }
+    public void InstantiateStone()
+    {
         Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        if (black)
-        {
-            Instantiate(stoneB, pos, transform.rotation, transform);
-            black = false;
-        }
-        else
-        {
-            Instantiate(stoneW, pos, transform.rotation, transform);
-            black = true;
-        }
+        Instantiate(myStone, pos, transform.rotation, transform);
         numStone++;
     }
-    IEnumerator FirstStone() {
-        yield return new WaitForSeconds(1);
-        InstantiateStone();
+    public void InstantiateOtherStone(int m, int n) {
+        PosState state = PosState.None;
+        if (GameSingleton.Instance.GetStoneState() == PosState.Black){
+            state = PosState.White;
+        }
+        else if(GameSingleton.Instance.GetStoneState() == PosState.White)
+        {
+            state = PosState.Black;
+        }
+        Vector3 pos = new Vector3(7 - m, n - 7, 0);
+        GetComponentInParent<StonePositionSetting>().SetStone(state, m, n);
+        Instantiate(otherStone, pos, transform.rotation, transform);
+        numStone++;
     }
 }

@@ -8,8 +8,6 @@ public class ReciveManager : MonoBehaviour
     bool recive = false;
     private List<string> msgs = new List<string>();
 
-    bool gameStart;
-    PosState myState;
     // Start is called before the first frame update
     void Awake()
     {
@@ -45,7 +43,7 @@ public class ReciveManager : MonoBehaviour
                 int cnt = save.Count;
                 for(int i = 0; i < cnt; i++)
                 {
-                    Debug.Log(save[i]);
+                    DeserializeJson(save[i]);
                 }
             }
         }
@@ -55,21 +53,19 @@ public class ReciveManager : MonoBehaviour
         switch (code.code) {
             case 1://start
                 Start start = JsonUtility.FromJson<Start>(str);
-                myState = start.state;
-                gameStart = true;
+                GameSingleton.Instance.SetGameState(GameState.PLAY);
+                GameSingleton.Instance.SetStoneState(start.state);
+                Debug.Log("Start!");
                 break;
             case 2://play
+                Play play = JsonUtility.FromJson<Play>(str);
+                GameSingleton.Instance.SetOtherStone(play.m, play.n);
+                GameSingleton.Instance.ChangeMyTurn(true);
                 break;
             case 3://end
                 break;
             case 4://message
                 break;
         }
-    }
-    public bool GameIsStart() {
-        return gameStart;
-    }
-    public PosState GetStoneColor() {
-        return myState;
     }
 }

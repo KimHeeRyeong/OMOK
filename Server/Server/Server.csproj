@@ -69,6 +69,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Echo.cs" />
+    <Compile Include="JsonData.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
