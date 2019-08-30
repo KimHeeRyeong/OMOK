@@ -31,6 +31,8 @@ public class Play : Code {
 public class End : Code
 {
     public PosState winner;
+    public int m;
+    public int n;
     public End() : base(3) {}
 }
 [Serializable]

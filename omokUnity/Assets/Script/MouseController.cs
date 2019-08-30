@@ -7,22 +7,18 @@ public class MouseController : MonoBehaviour
     bool fix;
     int m;
     int n;
-    PosState state;
-    // Start is called before the first frame update
+    bool triggerOthers;
+    public Clinet clinet;
     void Start()
     {
         fix = false;
         m = 0;
         n = 0;
-        state = GameSingleton.Instance.GetStoneState();
-        if (state == PosState.Black)
-        {
-            GetComponent<SpriteRenderer>().color = Color.black;
-        }
+        clinet = GameObject.Find("GameManager").GetComponent<Clinet>();
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (!fix)
         {
@@ -44,20 +40,42 @@ public class MouseController : MonoBehaviour
             {
                 m = -(int)pos.y + 7;
                 n = (int)pos.x + 7;
-                //if setStone is available
-                if (GetComponentInParent<StonePositionSetting>().SetStone(state, m, n)) {
+                if (!triggerOthers)
+                {
                     fix = true;
-                    GameSingleton.Instance.SendFixPos(m, n);
+                    SendPlay(m,n);
                     Destroy(this);
                 }
+                //if setStone is available
+                //if (GetComponentInParent<StonePositionSetting>().SetStone(state, m, n)) {
+                //    fix = true;
+                //    Destroy(this);
+                //}
             }
         }
     }
-    private void OnDestroy()
+    void SendPlay(int m, int n) {
+        Play play = new Play();
+        play.m = m;
+        play.n = n;
+        string str = JsonUtility.ToJson(play);
+        clinet.SendMsg(str);
+    }
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        if (GetComponentInParent<Transform>() != null)
+        if (collision.gameObject.CompareTag("Stone"))
         {
-            GetComponentInParent<CheckClear>().CheckOMOK(state, m, n);
+            triggerOthers = false;
+        }
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Stone"))
+        {
+            if (!triggerOthers)
+            {
+                triggerOthers = true;
+            }
         }
     }
 }

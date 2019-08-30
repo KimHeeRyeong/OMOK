@@ -4,17 +4,13 @@ using UnityEngine;
 
 public class ReciveManager : MonoBehaviour
 {
-    Clinet client;
     bool recive = false;
     private List<string> msgs = new List<string>();
+    AddStone add;
 
-    // Start is called before the first frame update
-    void Awake()
-    {
-        client = GetComponent<Clinet>();
-    }
     private void Start()
     {
+        add = GetComponent<AddStone>();
     }
     public void AddMsg(string msg) {
         lock (msgs)
@@ -53,14 +49,13 @@ public class ReciveManager : MonoBehaviour
         switch (code.code) {
             case 1://start
                 Start start = JsonUtility.FromJson<Start>(str);
-                GameSingleton.Instance.SetGameState(GameState.PLAY);
                 GameSingleton.Instance.SetStoneState(start.state);
                 Debug.Log("Start!");
                 break;
             case 2://play
                 Play play = JsonUtility.FromJson<Play>(str);
-                GameSingleton.Instance.SetOtherStone(play.m, play.n);
-                GameSingleton.Instance.ChangeMyTurn(true);
+                add.InstantiateOtherStone(play.m, play.n);
+                GameSingleton.Instance.ChangeMyTurn();
                 break;
             case 3://end
                 break;
