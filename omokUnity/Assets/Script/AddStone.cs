@@ -35,7 +35,7 @@ public class AddStone : MonoBehaviour
         {
             state = PosState.Black;
         }
-        Vector3 pos = new Vector3(7 - m, n - 7, 0);
+        Vector3 pos = new Vector3( n - 7,7 - m, 0);
         GetComponentInParent<StonePositionSetting>().SetStone(state, m, n);
         Instantiate(otherStone, pos, transform.rotation, transform);
         numStone++;
