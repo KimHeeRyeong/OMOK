@@ -12,30 +12,40 @@ namespace Server
 {
     public class Echo : WebSocketBehavior
     {
-       private static List<Echo> users = new List<Echo>();
+        private static List<Echo> users = new List<Echo>();
 
+        OmokState stage;
+        PosState myState;
         protected override void OnOpen() {//this에 해당하는 유저 접속
-            users.Add(this);
-            if (users.Count == 2)
+            if (users.Count > 2)
             {
-                for (int i = 0; i < 2; i++)
-                {
-                    Start start = new Start();
-                    if (i == 0)
-                    {
-                        start.state = PosState.Black;
-                    }
-                    else
-                    {
-                        start.state = PosState.White;
-                    }
-                    string str = JsonConvert.SerializeObject(start);
-                    users[i].Send(str);
-                }
+                //내보내기
             }
             else
             {
-                //내보내기
+                users.Add(this);
+                if (users.Count == 2)
+                {
+                    stage = new OmokState();
+                    stage.ResetPan();
+                    for (int i = 0; i < 2; i++)
+                    {
+                        Start start = new Start();
+                        if (i == 0)
+                        {
+                            users[i].stage = stage;
+                            myState = PosState.Black;
+                        }
+                        else
+                        {
+                            myState = PosState.White;
+                        }
+                        start.state = myState;
+                        string str = JsonConvert.SerializeObject(start);
+                        users[i].Send(str);
+                    }
+                }
+                   
             }
         }
         protected override void OnMessage(MessageEventArgs e) {//유저로부터 메시지를 받은 경우
@@ -45,11 +55,27 @@ namespace Server
                 switch (code.code)
                 {
                     case 2://play
-                        for (int i = 0; i < 2; i++)
+                        Play play= JsonConvert.DeserializeObject<Play>(e.Data);
+                        if(!stage.SetStone(myState, play.m, play.n))
                         {
-                            if (users[i] != this)
+                            for (int i = 0; i < 2; i++)
                             {
-                                users[i].Send(e.Data);
+                                if (users[i] != this)
+                                {
+                                    users[i].Send(e.Data);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            End end = new End();
+                            end.winner = myState;
+                            end.m = play.m;
+                            end.n = play.n;
+                            string str = JsonConvert.SerializeObject(end);
+                            for(int i = 0; i < 2; i++)
+                            {
+                                users[i].Send(str);
                             }
                         }
                         break;
