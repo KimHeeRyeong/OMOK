@@ -7,6 +7,7 @@ using WebSocketSharp;
 using WebSocketSharp.Net;
 using WebSocketSharp.Server;
 using Newtonsoft.Json;
+using System.Diagnostics;
 
 namespace Server
 {
@@ -34,13 +35,13 @@ namespace Server
                         if (i == 0)
                         {
                             users[i].stage = stage;
-                            myState = PosState.Black;
+                            users[i].myState = PosState.Black;
                         }
                         else
                         {
                             myState = PosState.White;
                         }
-                        start.state = myState;
+                        start.state = users[i].myState;
                         string str = JsonConvert.SerializeObject(start);
                         users[i].Send(str);
                     }

@@ -7,6 +7,7 @@ public class ReciveManager : MonoBehaviour
     bool recive = false;
     private List<string> msgs = new List<string>();
     AddStone add;
+    public GameObject endText;
 
     private void Start()
     {
@@ -58,9 +59,21 @@ public class ReciveManager : MonoBehaviour
                 GameSingleton.Instance.ChangeMyTurn();
                 break;
             case 3://end
+                End end = JsonUtility.FromJson<End>(str);
+                if (end.winner == GameSingleton.Instance.GetStoneState())
+                {
+                    //끝!
+                    Debug.Log("End");
+                }
+                else
+                {
+                    add.InstantiateOtherStone(end.m, end.n);
+                }
+                endText.SetActive(true);
                 break;
             case 4://message
                 break;
         }
     }
+    
 }
