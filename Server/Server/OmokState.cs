@@ -119,7 +119,7 @@ namespace Server
             }
             //check bottom right
             j = n + 1;
-            for (int i = n + 1; i < 15 && j < 15; i++)
+            for (int i = m + 1; i < 15 && j < 15; i++)
             {
                 if (pan[i, j] == state)
                 {
@@ -157,7 +157,7 @@ namespace Server
             }
             //check bottom left
             j = n - 1;
-            for (int i = n + 1; i < 15 && j >= 0; i++)
+            for (int i = m + 1; i < 15 && j >= 0; i++)
             {
                 if (pan[i, j] == state)
                 {
@@ -175,6 +175,15 @@ namespace Server
             }
             return false;
         }
-
+        //void DebugStones() {
+        //    for(int i = 0; i < 15; i++)
+        //    {
+        //        for(int j = 0; j < 15; j++)
+        //        {
+        //            Debug.Write(pan[i, j]);
+        //        }
+        //        Debug.WriteLine("");
+        //    }
+        //}
     }
 }

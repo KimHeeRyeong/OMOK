@@ -7,7 +7,6 @@ public class MouseController : MonoBehaviour
     bool fix;
     int m;
     int n;
-    bool triggerOthers;
     public Clinet clinet;
     void Start()
     {
@@ -40,17 +39,13 @@ public class MouseController : MonoBehaviour
             {
                 m = -(int)pos.y + 7;
                 n = (int)pos.x + 7;
-                if (!triggerOthers)
+                if (!GameSingleton.Instance.ContainPos(m,n))
                 {
+                    GameSingleton.Instance.AddStonePos(m, n);
                     fix = true;
                     SendPlay(m,n);
                     Destroy(this);
                 }
-                //if setStone is available
-                //if (GetComponentInParent<StonePositionSetting>().SetStone(state, m, n)) {
-                //    fix = true;
-                //    Destroy(this);
-                //}
             }
         }
     }
@@ -60,22 +55,5 @@ public class MouseController : MonoBehaviour
         play.n = n;
         string str = JsonUtility.ToJson(play);
         clinet.SendMsg(str);
-    }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Stone"))
-        {
-            triggerOthers = false;
-        }
-    }
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Stone"))
-        {
-            if (!triggerOthers)
-            {
-                triggerOthers = true;
-            }
-        }
     }
 }

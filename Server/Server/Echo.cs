@@ -39,7 +39,7 @@ namespace Server
                         }
                         else
                         {
-                            myState = PosState.White;
+                            users[i].myState = PosState.White;
                         }
                         start.state = users[i].myState;
                         string str = JsonConvert.SerializeObject(start);

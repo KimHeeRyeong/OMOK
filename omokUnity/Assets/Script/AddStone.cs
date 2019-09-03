@@ -21,6 +21,7 @@ public class AddStone : MonoBehaviour
     }
     public void InstantiateOtherStone(int m, int n) {
         Vector3 pos = new Vector3(n - 7,7 - m, 0);
+        GameSingleton.Instance.AddStonePos(m, n);
         Instantiate(otherStone, pos, transform.rotation, transform);
     }
 }
