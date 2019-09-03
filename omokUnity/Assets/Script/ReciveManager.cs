@@ -8,6 +8,8 @@ public class ReciveManager : MonoBehaviour
     private List<string> msgs = new List<string>();
     AddStone add;
     public GameObject endText;
+    public GameObject otherUI;
+    public GameObject startUI;
 
     private void Start()
     {
@@ -50,7 +52,8 @@ public class ReciveManager : MonoBehaviour
         switch (code.code) {
             case 1://start
                 Start start = JsonUtility.FromJson<Start>(str);
-                GameSingleton.Instance.SetStoneState(start.state);
+                otherUI.SetActive(true);
+                StartCoroutine(OppenentIn(start.state));
                 Debug.Log("Start!");
                 break;
             case 2://play
@@ -74,6 +77,16 @@ public class ReciveManager : MonoBehaviour
             case 4://message
                 break;
         }
+    }
+    IEnumerator OppenentIn(PosState st) {
+        yield return new WaitForSeconds(0.5f);
+        startUI.SetActive(true);
+        StartCoroutine(StartGame(st));
+    }
+    IEnumerator StartGame(PosState st) {
+        yield return new WaitForSeconds(1.0f);
+        GameSingleton.Instance.SetStoneState(st);
+
     }
     
 }
