@@ -40,3 +40,18 @@ public class Message : Code {
     public string msg;
     public Message() : base(4) {}
 }
+[Serializable]
+public class Replay : Code
+{
+    public Replay() : base(5) { }
+}
+[Serializable]
+public class Exit : Code
+{
+    public Exit() : base(6) { }
+}
+[Serializable]
+public class GiveUp : Code
+{
+    public GiveUp() : base(7) { }
+}

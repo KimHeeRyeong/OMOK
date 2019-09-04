@@ -10,7 +10,7 @@ public class ReciveManager : MonoBehaviour
     public GameObject endText;
     public GameObject otherUI;
     public GameObject startUI;
-
+    public CenterStoneColor stoneColor;
     private void Start()
     {
         add = GetComponent<AddStone>();
@@ -60,6 +60,7 @@ public class ReciveManager : MonoBehaviour
                 Play play = JsonUtility.FromJson<Play>(str);
                 add.InstantiateOtherStone(play.m, play.n);
                 GameSingleton.Instance.ChangeMyTurn();
+                stoneColor.MyTurn();
                 break;
             case 3://end
                 End end = JsonUtility.FromJson<End>(str);
@@ -86,6 +87,14 @@ public class ReciveManager : MonoBehaviour
     IEnumerator StartGame(PosState st) {
         yield return new WaitForSeconds(1.0f);
         GameSingleton.Instance.SetStoneState(st);
+        if(st== PosState.Black)
+        {
+            stoneColor.MyTurn();
+        }
+        else
+        {
+            stoneColor.OtherTurn();
+        }
 
     }
     

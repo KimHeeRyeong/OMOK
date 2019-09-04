@@ -8,12 +8,14 @@ public class MouseController : MonoBehaviour
     int m;
     int n;
     public Clinet clinet;
+    public CenterStoneColor stoneColor;
     void Start()
     {
         fix = false;
         m = 0;
         n = 0;
         clinet = GameObject.Find("GameManager").GetComponent<Clinet>();
+        stoneColor = GameObject.Find("Turn").GetComponent<CenterStoneColor>();
     }
 
     // Update is called once per frame
@@ -44,6 +46,7 @@ public class MouseController : MonoBehaviour
                     GameSingleton.Instance.AddStonePos(m, n);
                     fix = true;
                     SendPlay(m,n);
+                    stoneColor.OtherTurn();
                     Destroy(this);
                 }
             }
