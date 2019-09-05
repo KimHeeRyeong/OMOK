@@ -33,4 +33,13 @@ public class Clinet : MonoBehaviour
     public void SendMsg(string msg) {
         socketClient.Send(msg);
     }
+    public void SendRePaly() {
+        if (!GameSingleton.Instance.GetReplay())
+        {
+            Replay replay = new Replay();
+            string str = JsonUtility.ToJson(replay);
+            SendMsg(str);
+            GameSingleton.Instance.SetReplay(true);
+        }
+   }
 }

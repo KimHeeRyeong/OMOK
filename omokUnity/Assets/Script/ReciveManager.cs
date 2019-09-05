@@ -13,6 +13,7 @@ public class ReciveManager : MonoBehaviour
     public GameObject otherUI;
     public GameObject startUI;
     public CenterStoneColor stoneColor;
+    public GameObject stones;
     private void Start()
     {
         add = GetComponent<AddStone>();
@@ -53,9 +54,23 @@ public class ReciveManager : MonoBehaviour
         Code code = JsonUtility.FromJson<Code>(str);
         switch (code.code) {
             case 1://start
+                int cnt = stones.transform.childCount;
+                for (int i = cnt; i > 0; i--) {
+                    Destroy(stones.transform.GetChild(i - 1).transform.gameObject);
+                }
+                endPanel.SetActive(false);
+                GameSingleton.Instance.SetReplay(false);
                 Start start = JsonUtility.FromJson<Start>(str);
-                otherUI.SetActive(true);
-                StartCoroutine(OppenentIn(start.state));
+                if (otherUI.activeSelf)//if replay same oppenent
+                {
+                    startUI.SetActive(true);
+                    StartCoroutine(StartGame(start.state));
+                }
+                else
+                {
+                    otherUI.SetActive(true);
+                    StartCoroutine(OppenentIn(start.state));
+                }
                 Debug.Log("Start!");
                 break;
             case 2://play
@@ -90,7 +105,7 @@ public class ReciveManager : MonoBehaviour
     IEnumerator StartGame(PosState st) {
         yield return new WaitForSeconds(1.0f);
         GameSingleton.Instance.SetStoneState(st);
-        if(st== PosState.Black)
+        if (st== PosState.Black)
         {
             stoneColor.MyTurn();
         }

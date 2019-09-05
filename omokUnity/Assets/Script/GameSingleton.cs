@@ -11,6 +11,7 @@ public class GameSingleton : MonoBehaviour
     PosState myState;
     bool myTurn;
     int[,] setPos;
+    bool replay;
     void Awake()
     {
         if (instance != null)
@@ -23,6 +24,7 @@ public class GameSingleton : MonoBehaviour
         myState = PosState.None;
         myTurn = false;
         setPos = new int[15,15];
+        replay = false;
         ClearPan();
     }
 
@@ -73,5 +75,16 @@ public class GameSingleton : MonoBehaviour
         }
         return false;
     }
-
+    public bool GetReplay() {
+        return replay;
+    }
+    public void SetReplay(bool set) {
+        if (set == true)
+        {
+            myState = PosState.None;
+            ClearPan();
+            myTurn = false;
+        }
+        replay = set;
+    }
 }

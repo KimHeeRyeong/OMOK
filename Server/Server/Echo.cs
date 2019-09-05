@@ -18,6 +18,7 @@ namespace Server
         OmokState stage;
         PosState myState;
         Echo oppenent = null;
+        bool replay = false;
         protected override void OnOpen()
         {
             lock (users) {
@@ -77,6 +78,30 @@ namespace Server
                             string str = JsonConvert.SerializeObject(end);
                             Send(str);
                             oppenent.Send(str);
+                        }
+                        break;
+                    case 5://replay
+                        replay = true;
+                        if (oppenent.replay == true)
+                        {
+                            stage.ResetPan();
+                            //setState
+                            PosState save = myState;
+                            myState = oppenent.myState;
+                            oppenent.myState = save;
+
+                            //setting start_op
+                            Start start = new Start();
+                            start.state = oppenent.myState;
+                            string str = JsonConvert.SerializeObject(start);
+                            oppenent.Send(str);
+
+                            //setting start_this
+                            start.state = myState;
+                            str = JsonConvert.SerializeObject(start);
+                            Send(str);
+                            replay = false;
+                            oppenent.replay = false;
                         }
                         break;
                 }
