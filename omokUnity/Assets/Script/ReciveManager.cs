@@ -14,6 +14,7 @@ public class ReciveManager : MonoBehaviour
     public GameObject startUI;
     public CenterStoneColor stoneColor;
     public GameObject stones;
+    public GameObject wait;
     private void Start()
     {
         add = GetComponent<AddStone>();
@@ -54,6 +55,10 @@ public class ReciveManager : MonoBehaviour
         Code code = JsonUtility.FromJson<Code>(str);
         switch (code.code) {
             case 1://start
+                if (wait.activeSelf)
+                {
+                    wait.SetActive(false);
+                }
                 int cnt = stones.transform.childCount;
                 for (int i = cnt; i > 0; i--) {
                     Destroy(stones.transform.GetChild(i - 1).transform.gameObject);
