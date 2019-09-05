@@ -35,14 +35,6 @@ public class GameSingleton : MonoBehaviour
         if (myState == PosState.None)
         {
             myState = state;
-            if (myState == PosState.Black)
-            {
-                myTurn = true;
-            }
-            else
-            {
-                myTurn = false;
-            }
             return true;
         }
         else

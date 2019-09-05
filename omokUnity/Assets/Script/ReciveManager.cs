@@ -61,6 +61,15 @@ public class ReciveManager : MonoBehaviour
                 endPanel.SetActive(false);
                 GameSingleton.Instance.SetReplay(false);
                 Start start = JsonUtility.FromJson<Start>(str);
+                GameSingleton.Instance.SetStoneState(start.state);
+                if (start.state == PosState.Black)
+                {
+                    stoneColor.MyTurn();
+                }
+                else
+                {
+                    stoneColor.OtherTurn();
+                }
                 if (otherUI.activeSelf)//if replay same oppenent
                 {
                     startUI.SetActive(true);
@@ -104,14 +113,9 @@ public class ReciveManager : MonoBehaviour
     }
     IEnumerator StartGame(PosState st) {
         yield return new WaitForSeconds(1.0f);
-        GameSingleton.Instance.SetStoneState(st);
         if (st== PosState.Black)
         {
-            stoneColor.MyTurn();
-        }
-        else
-        {
-            stoneColor.OtherTurn();
+            GameSingleton.Instance.ChangeMyTurn();
         }
 
     }
