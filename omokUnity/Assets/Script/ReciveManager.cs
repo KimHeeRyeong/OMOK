@@ -1,13 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ReciveManager : MonoBehaviour
 {
     bool recive = false;
     private List<string> msgs = new List<string>();
     AddStone add;
-    public GameObject endText;
+    public GameObject endPanel;
+    public Text endText;
     public GameObject otherUI;
     public GameObject startUI;
     public CenterStoneColor stoneColor;
@@ -67,13 +69,14 @@ public class ReciveManager : MonoBehaviour
                 if (end.winner == GameSingleton.Instance.GetStoneState())
                 {
                     //끝!
-                    Debug.Log("End");
+                    endText.GetComponent<Text>().text = "You Win!";
                 }
                 else
                 {
                     add.InstantiateOtherStone(end.m, end.n);
+                    endText.GetComponent<Text>().text = "You Lose";
                 }
-                endText.SetActive(true);
+                endPanel.SetActive(true);
                 break;
             case 4://message
                 break;
