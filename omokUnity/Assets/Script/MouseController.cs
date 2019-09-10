@@ -7,8 +7,8 @@ public class MouseController : MonoBehaviour
     bool fix;
     int m;
     int n;
-    public Clinet clinet;
-    public CenterStoneColor stoneColor;
+    Clinet clinet;
+    CenterStoneColor stoneColor;
     void Start()
     {
         fix = false;
@@ -21,6 +21,10 @@ public class MouseController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (GameSingleton.Instance.GetGiveUp())
+        {
+            Destroy(this.gameObject);
+        }
         if (!fix)
         {
             //stone position preview

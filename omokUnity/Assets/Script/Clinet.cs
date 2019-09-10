@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using WebSocketSharp;
-
+using UnityEngine.SceneManagement;
 public class Clinet : MonoBehaviour
 {
     ReciveManager reciveManager;
@@ -34,6 +34,7 @@ public class Clinet : MonoBehaviour
         socketClient.Send(msg);
     }
     public void SendRePaly() {
+        GameSingleton.Instance.SetGiveUp(false);
         if (!GameSingleton.Instance.GetReplay())
         {
             Replay replay = new Replay();
@@ -42,4 +43,15 @@ public class Clinet : MonoBehaviour
             GameSingleton.Instance.SetReplay(true);
         }
    }
+    public void CloseSocket() {
+        socketClient.Close();
+        SceneManager.LoadScene(0);
+    }
+    public void GiveUp()
+    {
+        GameSingleton.Instance.SetGiveUp(true);
+        GiveUp giveUp = new GiveUp();
+        string str = JsonUtility.ToJson(giveUp);
+        SendMsg(str);
+    }
 }

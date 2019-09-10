@@ -53,5 +53,6 @@ public class Exit : Code
 [Serializable]
 public class GiveUp : Code
 {
+    public PosState winner;
     public GiveUp() : base(7) { }
 }

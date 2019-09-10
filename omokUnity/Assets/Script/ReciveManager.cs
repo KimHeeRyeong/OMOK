@@ -15,6 +15,8 @@ public class ReciveManager : MonoBehaviour
     public CenterStoneColor stoneColor;
     public GameObject stones;
     public GameObject wait;
+    public GameObject exit;
+
     private void Start()
     {
         add = GetComponent<AddStone>();
@@ -55,38 +57,41 @@ public class ReciveManager : MonoBehaviour
         Code code = JsonUtility.FromJson<Code>(str);
         switch (code.code) {
             case 1://start
-                if (wait.activeSelf)
                 {
-                    wait.SetActive(false);
+                    if (wait.activeSelf)
+                    {
+                        wait.SetActive(false);
+                    }
+                    int cnt = stones.transform.childCount;
+                    for (int i = cnt; i > 0; i--)
+                    {
+                        Destroy(stones.transform.GetChild(i - 1).transform.gameObject);
+                    }
+                    endPanel.SetActive(false);
+                    GameSingleton.Instance.SetReplay(false);
+                    Start start = JsonUtility.FromJson<Start>(str);
+                    GameSingleton.Instance.SetStoneState(start.state);
+                    if (start.state == PosState.Black)
+                    {
+                        stoneColor.MyTurn();
+                    }
+                    else
+                    {
+                        stoneColor.OtherTurn();
+                    }
+                    if (otherUI.activeSelf)//if replay same oppenent
+                    {
+                        startUI.SetActive(true);
+                        StartCoroutine(StartGame(start.state));
+                    }
+                    else
+                    {
+                        otherUI.SetActive(true);
+                        StartCoroutine(OppenentIn(start.state));
+                    }
+                    Debug.Log("Start!");
+                    break;
                 }
-                int cnt = stones.transform.childCount;
-                for (int i = cnt; i > 0; i--) {
-                    Destroy(stones.transform.GetChild(i - 1).transform.gameObject);
-                }
-                endPanel.SetActive(false);
-                GameSingleton.Instance.SetReplay(false);
-                Start start = JsonUtility.FromJson<Start>(str);
-                GameSingleton.Instance.SetStoneState(start.state);
-                if (start.state == PosState.Black)
-                {
-                    stoneColor.MyTurn();
-                }
-                else
-                {
-                    stoneColor.OtherTurn();
-                }
-                if (otherUI.activeSelf)//if replay same oppenent
-                {
-                    startUI.SetActive(true);
-                    StartCoroutine(StartGame(start.state));
-                }
-                else
-                {
-                    otherUI.SetActive(true);
-                    StartCoroutine(OppenentIn(start.state));
-                }
-                Debug.Log("Start!");
-                break;
             case 2://play
                 Play play = JsonUtility.FromJson<Play>(str);
                 add.InstantiateOtherStone(play.m, play.n);
@@ -109,6 +114,33 @@ public class ReciveManager : MonoBehaviour
                 break;
             case 4://message
                 break;
+            case 6://exit
+                {
+                    int cnt = stones.transform.childCount;
+                    for (int i = cnt; i > 0; i--)
+                    {
+                        Destroy(stones.transform.GetChild(i - 1).transform.gameObject);
+                    }
+                    exit.SetActive(true);
+                    break;
+                }
+            case 7://give up
+                {
+                    Debug.Log("get giveup message");
+                    GameSingleton.Instance.SetGiveUp(true);
+                    GiveUp giveUp = JsonUtility.FromJson<GiveUp>(str);
+                    if (giveUp.winner == GameSingleton.Instance.GetStoneState())
+                    {
+                        //끝!
+                        endText.GetComponent<Text>().text = "You Win!";
+                    }
+                    else
+                    {
+                        endText.GetComponent<Text>().text = "You Lose";
+                    }
+                    endPanel.SetActive(true);
+                    break;
+                }
         }
     }
     IEnumerator OppenentIn(PosState st) {

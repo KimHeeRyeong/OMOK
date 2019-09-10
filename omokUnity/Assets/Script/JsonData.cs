@@ -45,3 +45,14 @@ public class Replay : Code
 {
     public Replay() : base(5) { }
 }
+[Serializable]
+public class Exit : Code
+{
+    public Exit() : base(6) { }
+}
+[Serializable]
+public class GiveUp : Code
+{
+    public PosState winner;
+    public GiveUp() : base(7) { }
+}

@@ -12,6 +12,7 @@ public class GameSingleton : MonoBehaviour
     bool myTurn;
     int[,] setPos;
     bool replay;
+    bool giveUp;
     void Awake()
     {
         if (instance != null)
@@ -25,6 +26,7 @@ public class GameSingleton : MonoBehaviour
         myTurn = false;
         setPos = new int[15,15];
         replay = false;
+        giveUp = false;
         ClearPan();
     }
 
@@ -78,5 +80,11 @@ public class GameSingleton : MonoBehaviour
             myTurn = false;
         }
         replay = set;
+    }
+    public bool GetGiveUp() {
+        return giveUp;
+    }
+    public void SetGiveUp(bool set) {
+        giveUp = set;
     }
 }

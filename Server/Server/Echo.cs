@@ -15,10 +15,11 @@ namespace Server
     {
         private static List<Echo> users = new List<Echo>();
 
-        OmokState stage;
+        OmokState stage=null;
         PosState myState;
         Echo oppenent = null;
         bool replay = false;
+        bool exit = false;
         protected override void OnOpen()
         {
             lock (users) {
@@ -104,12 +105,28 @@ namespace Server
                             oppenent.replay = false;
                         }
                         break;
+                    case 7://giveup
+                        {
+                            GiveUp giveUp = new GiveUp();
+                            giveUp.winner = oppenent.myState;
+                            string str = JsonConvert.SerializeObject(giveUp);
+                            Send(str);
+                            oppenent.Send(str);
+                            break;
+                        }
                 }
             }
         }
         protected override void OnClose(CloseEventArgs e) {//this에 해당하는 유저 나감
             lock (users)
             {
+                if (!exit&&oppenent != null)
+                {
+                    oppenent.exit = true;
+                    Exit exit = new Exit();
+                    string str = JsonConvert.SerializeObject(exit);
+                    oppenent.Send(str);
+                }
                 users.Remove(this);
             }
         }
